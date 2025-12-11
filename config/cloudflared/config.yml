@@ -1,0 +1,28 @@
+tunnel: orchestrator-hub-tunnel
+logLevel: debug
+
+ingress:
+  # Try to catch all paths and forward them directly
+  - hostname: hub.yourdomain.io
+    service: http://localhost:7080
+    # Match all paths
+    path: /*
+    originRequest:
+      noTLSVerify: true
+      connectTimeout: 10s
+      disableChunkedEncoding: true
+      keepAliveConnections: 100
+      keepAliveTimeout: 30s
+
+  - hostname: cloud.yourdomain.io
+    service: http://localhost:9200
+    # Match all paths
+    path: /*
+    originRequest:
+      noTLSVerify: true
+      connectTimeout: 10s
+      disableChunkedEncoding: true
+      keepAliveConnections: 100
+      keepAliveTimeout: 30s
+  # Catch-all rule
+  - service: http_status:404

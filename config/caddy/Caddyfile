@@ -1,0 +1,39 @@
+{
+    # Global options
+    admin off
+}
+
+
+:80 {
+    # Handle /metube path
+    handle_path /metube* {
+ 
+        reverse_proxy http://metube:8081
+        
+    }
+
+    # Handle filegator path
+    handle_path /filegator* {
+        reverse_proxy http://filegator:8080
+    }
+
+    # Handle Jellyfin path
+    handle_path /jellyfin* {
+        reverse_proxy http://jellyfin:8096
+    }
+
+ 
+
+    # Root path handler (optional)
+    handle_path /* {
+        reverse_proxy http://homarr:7575
+    }
+
+    # Log all requests
+    log {
+        output stdout
+        format console
+        level INFO
+    }
+}
+

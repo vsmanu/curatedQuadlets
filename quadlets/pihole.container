@@ -3,17 +3,23 @@
 [Container]
 ContainerName=pihole
 # Please adjust the password and ip address as you need, also please make sure same IP is assigned to the host always
-Environment=TZ=Europe/Berlin WEBPASSWORD=a_random_password FTLCONF_LOCAL_IPV4=192.168.2.48 VIRTUAL_HOST=pi.hole
-Image=pihole/pihole:latest
+Environment=TZ=Europe/Berlin WEBPASSWORD=3XGS_56_eer_2_EBd_46Zox FTLCONF_LOCAL_IPV4=192.168.2.48 VIRTUAL_HOST=pi.hole
+Image=docker.io/pihole/pihole:latest
 PublishPort=5380:80
-PublishPort=53:53/tcp
-PublishPort=53:53/udp
+PublishPort=5353:53/tcp
+PublishPort=5353:53/udp
 Volume=pihole:/etc/pihole
 Volume=dnsmasq:/etc/dnsmasq.d
+Network=caddynet.network
+AutoUpdate=registry
 
 [Service]
+#AmbientCapabilities=CAP_NET_BIND_SERVICE
 Restart=always
 
 [Install]
 # Start by default on boot
 WantedBy=multi-user.target default.target
+
+[Unit]
+After=network-online.target

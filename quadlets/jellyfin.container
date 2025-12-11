@@ -1,0 +1,29 @@
+[Container]
+Image=docker.io/jellyfin/jellyfin:latest
+ContainerName=jellyfin
+AutoUpdate=registry
+LogDriver=journald
+UserNS=keep-id
+PublishPort=8096:8096/tcp
+# For hardware acceleration, see https://jellyfin.org/docs/general/advanced/#hardware-acceleration
+AddDevice=/dev/dri/:/dev/dri/
+Volume=jellyfin-config:/config:Z
+Volume=jellyfin-cache:/cache:Z
+#Volume=/home/suserunpi/jelly_media:/media:z
+Volume=/mnt/octopus_media/videos:/videos:z
+#Volume=/mnt/octopus_media/videos/kids:/videos/kids:z
+#Volume=/mnt/octopus_media/videos/movies:/videos/movies:z
+#Volume=/mnt/octopus_media/videos/adt:/videos/adt:z
+Network=caddynet.network
+#Volume=/path/to/media1:/media1:z
+#Volume=/path/to/media2:/media2:z
+
+[Service]
+Restart=always
+SuccessExitStatus=0 143
+
+[Install]
+WantedBy=default.target
+
+[Unit]
+After=network-online.target

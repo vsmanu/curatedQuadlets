@@ -1,0 +1,6 @@
+# ~/.config/systemd/user/network-online.target
+[Unit]
+Description=User-level network-online.target
+Requires=network-online.service
+Wants=network-online.service
+After=network-online.service

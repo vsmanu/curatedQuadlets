@@ -1,0 +1,19 @@
+[Unit]
+Description=Cloudflared Tunnel Service
+After=network-online.target
+
+[Container]
+Image=docker.io/cloudflare/cloudflared:latest
+ContainerName=cloudflared
+EnvironmentFile=/home/suserunpi/config/cloudflared/cloudflared-secrets.env
+Volume=/home/suserunpi/config/cloudflared/config.yml:/etc/cloudflared/config.yml:ro,Z
+Network=host
+Exec=tunnel --config /etc/cloudflared/config.yml run
+AutoUpdate=registry
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,10 @@
+# ~/.config/systemd/user/network-online.service
+[Unit]
+Description=User-level proxy to system-level network-online.target
+
+[Service]
+type=oneshot
+ExecStart=/bin/bash -c 'until systemctl --machine=%u@.host is-active network-online.target; do sleep 1; done'
+
+[Install]
+WantedBy=default.target

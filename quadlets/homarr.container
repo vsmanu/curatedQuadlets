@@ -1,0 +1,22 @@
+[Unit]
+Description=Homarr Quadlet
+After=network-online.target
+
+[Container]
+Image=ghcr.io/ajnart/homarr:latest
+ContainerName=homarr
+PublishPort=7575:7575
+Network=caddynet.network
+Volume=/home/suserunpi/config/homarr/configs:/app/data/configs:Z
+Volume=/home/suserunpi/config/homarr/icons:/app/public/icons:Z
+Volume=/home/suserunpi/config/homarr/data:/data:Z
+
+
+[Service]
+Restart=on-success
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target
+
+

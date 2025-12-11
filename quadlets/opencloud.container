@@ -1,0 +1,65 @@
+[Unit]
+Description=OpenCloud Service
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=docker.io/opencloudeu/opencloud-rolling:latest
+ContainerName=opencloud
+AutoUpdate=registry
+LogDriver=journald
+PublishPort=9200:9200
+Network=caddynet.network
+
+# Run as non-root user
+#User=1002
+#Group=1002
+
+# Container runtime settings
+PodmanArgs=--userns=keep-id --security-opt label=disable
+
+EnvironmentFile=/home/suserunpi/config/opencloud/secrets.env
+
+# Environment variables
+Environment=OC_URL=https://cloud.yourdomain.io
+Environment=OC_LOG_LEVEL=${LOG_LEVEL:-info}
+Environment=OC_LOG_COLOR=false
+Environment=OC_LOG_PRETTY=false
+Environment=PROXY_TLS=false
+Environment=OC_INSECURE=${INSECURE:-false}
+Environment=PROXY_ENABLE_BASIC_AUTH=${PROXY_ENABLE_BASIC_AUTH:-false}
+Environment=IDM_CREATE_DEMO_USERS=${DEMO_USERS:-false}
+Environment=FRONTEND_ARCHIVER_MAX_SIZE=10000000000
+Environment=PROXY_CSP_CONFIG_FILE_LOCATION=/etc/opencloud/csp.yaml
+Environment=OC_PASSWORD_POLICY_BANNED_PASSWORDS_LIST=banned-password-list.txt
+Environment=OC_SHARING_PUBLIC_SHARE_MUST_HAVE_PASSWORD=true
+Environment=OC_SHARING_PUBLIC_WRITEABLE_SHARE_MUST_HAVE_PASSWORD=true
+Environment=OC_PASSWORD_POLICY_DISABLED=false
+Environment=OC_PASSWORD_POLICY_MIN_CHARACTERS=8
+Environment=OC_PASSWORD_POLICY_MIN_LOWERCASE_CHARACTERS=1
+Environment=OC_PASSWORD_POLICY_MIN_UPPERCASE_CHARACTERS=1
+Environment=OC_PASSWORD_POLICY_MIN_DIGITS=1
+Environment=OC_PASSWORD_POLICY_MIN_SPECIAL_CHARACTERS=1
+
+# Volume mounts - Simplified with just Z labeling
+Volume=/home/suserunpi/config/opencloud/csp.yaml:/etc/opencloud/csp.yaml:Z
+Volume=/home/suserunpi/config/opencloud:/etc/opencloud:Z
+Volume=/home/suserunpi/data/opencloud:/var/lib/opencloud:Z
+Volume=/home/suserunpi/config/opencloud/apps:/var/lib/opencloud/web/assets/apps:Z
+Volume=/home/suserunpi/config/opencloud/banned-password-list.txt:/etc/opencloud/banned-password-list.txt:Z
+Volume=/home/suserunpi/config/opencloud/config.json:/var/lib/opencloud/config/config.json:Z
+
+# Container security settings
+#NoNewPrivileges=true
+
+# Entry point and command - ensure proper ownership before starting
+Entrypoint=["/bin/sh"]
+Exec=-c 'opencloud init || true; opencloud server'
+#Entrypoint=/bin/sh
+#Exec=-c "chown -R 1002:1002 /etc/opencloud /var/lib/opencloud && opencloud init --force-overwrite && opencloud server"
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
