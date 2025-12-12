@@ -14,7 +14,7 @@
     {
       "id": "93e0a191-d7bb-45e6-aa8d-f41ca222f78b",
       "name": "Filegator",
-      "url": "http://192.168.2.48:8085",
+      "url": "http://192.168.1.33:8085",
       "appearance": {
         "iconUrl": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/svg/filegator.svg",
         "appNameStatus": "normal",
@@ -163,7 +163,7 @@
     {
       "id": "f972745d-f672-4e0b-b6a8-f93cdd73065b",
       "name": "Metube",
-      "url": "http://192.168.2.48:8081",
+      "url": "http://192.168.1.33:8081",
       "appearance": {
         "iconUrl": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/svg/metube.svg",
         "appNameStatus": "normal",
@@ -253,7 +253,7 @@
       },
       "behaviour": {
         "isOpeningNewTab": true,
-        "externalUrl": "http://192.168.2.48:5380/admin"
+        "externalUrl": "http://192.168.1.33:5380/admin"
       },
       "area": {
         "type": "wrapper",
@@ -279,7 +279,7 @@
           {
             "field": "apiKey",
             "type": "private",
-            "value": "RN+Ap+lJTedu3+KC8NTMMMmygdw1qGhgCl0Ln04/D64="
+            "value": "your_private_api_key"
           }
         ]
       }
@@ -287,7 +287,7 @@
     {
       "id": "0e8b15cb-0159-4369-b141-2de00aac4180",
       "name": "Nextcloud",
-      "url": "http://192.168.2.48:11000",
+      "url": "http://192.168.1.33:11000",
       "appearance": {
         "iconUrl": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/svg/nextcloud-blue.svg",
         "appNameStatus": "normal",
